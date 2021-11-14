@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- by default takes you back to previous page.
+        defaultHref - when this page is refreshed (so Angular loaded from here)
+      -->
+      <ion-back-button defaultHref="/places/tabs/discover"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ isLoading ? 'Loading...' : loadedPlace.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <ion-grid class="ion-no-padding" *ngIf="!isLoading">
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
+        <ion-img [src]="loadedPlace.imageUrl"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class="ion-text-center ion-padding">
+        <p>{{ loadedPlace.description }}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class="ion-text-center ion-padding">
+        <p>{{ loadedPlace.location.address }}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class="ion-no-padding">
+        <ion-img
+          class="location-image"
+          [src]="loadedPlace.location.staticMapImageUrl"
+          role="button"
+          (click)="onShowFullMap()"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isBookable">
+      <ion-col size-sm="6" offset-sm="3" class="ion-text-center">
+        <ion-button color="primary" class="ion-margin" (click)="onBookPlace()">Book</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

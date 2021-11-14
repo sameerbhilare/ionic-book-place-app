@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- way 1: ion-menu-button will automatically take your default ion-menu you have and open that. -->
+      <ion-menu-button></ion-menu-button>
+
+      <!-- way 2: in csse of multiple ion-menu elements specify which menu to openvia 'menu'-->
+      <!-- <ion-menu-button menu="mainMenu"></ion-menu-button> -->
+
+      <!-- way 3: opening menu programatically -->
+      <!-- <ion-button (click)="onOpenMenu()">Open</ion-button> -->
+    </ion-buttons>
+    <ion-title>Discover Places</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- ion-segment component allows you to add segmented buttons,
+    which means buttons were only one button of the set of buttons can be active at a time. -->
+  <ion-segment value="all" (ionChange)="onFilterUpdateUI($event)">
+    <ion-segment-button value="all">All Places</ion-segment-button>
+    <ion-segment-button value="bookable">Bookable Places</ion-segment-button>
+  </ion-segment>
+  <ion-grid *ngIf="isLoading">
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-spinner color="primary"></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="!isLoading && (!relevantPlaces || relevantPlaces.length <= 0)">
+    <!-- Featured Place -->
+    <ion-row>
+      <!-- total col size 12. for sm screens - total 8 so adding remaning 4 for offset (left and right) -->
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <p>There are no bookable places right now, please come back later!</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="!isLoading && relevantPlaces.length > 0">
+    <!-- Featured Place -->
+    <ion-row>
+      <!-- total col size 12. for sm screens - total 8 so adding remaning 4 for offset (left and right) -->
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ relevantPlaces[0].title }}</ion-card-title>
+            <ion-card-subtitle>{{ relevantPlaces[0].price | currency }} / Night</ion-card-subtitle>
+          </ion-card-header>
+          <ion-img [src]='relevantPlaces[0].imageUrl'></ion-img>
+          <ion-card-content>
+            <p>{{ relevantPlaces[0].description }}</p>
+          </ion-card-content>
+          <div class="ion-text-right">
+            <!-- "routerDirection" attribute to ion-button is ionic feature.
+                 It gives hint to ionic whether this is forward link on backward link
+                So that ionic can play appropriate animation.
+                Allowed values are - "back" | "forward" | "root"
+             -->
+            <ion-button fill="clear" color="primary" [routerLink]="['/', 'places', 'tabs', 'discover', relevantPlaces[0].id]">More</ion-button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- total col size 12. for sm screens - total 8 so adding remaning 4 for offset (left and right) -->
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-list>
+          <!-- all places except first -->
+          <!-- 'detail' attribute on ion-item element shows a '>' sign on the UI so that it is clear that its clickable-->
+          <ion-item
+            *ngFor="let place of relevantPlaces | slice:1"
+            [routerLink]="['/', 'places', 'tabs', 'discover', place.id]"
+            detail>
+            <ion-thumbnail slot="start">
+              <ion-img [src]="place.imageUrl"></ion-img>
+            </ion-thumbnail>
+            <ion-title>
+              <h2>{{ place.title }}</h2>
+              <p>{{ place.description }}</p>
+            </ion-title>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

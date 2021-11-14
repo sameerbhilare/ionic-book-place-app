@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- ion-menu-button will automatically take your default ion-menu you have and open that. -->
+      <!-- <ion-menu-button></ion-menu-button> -->
+
+      <!-- in csse of multiple ion-menu elements specify which menu to openvia 'menu'-->
+      <ion-menu-button menu="mainMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Offers</ion-title>
+    <!-- Any button added to ion-toolbar should always be in ion-buttons group -->
+    <!-- "primary" means end of toolbar -->
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/places/tabs/offers/new">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <!-- in case of loading -->
+        <div *ngIf="isLoading" class="ion-text-center">
+          <ion-spinner color="primary"></ion-spinner>
+        </div>
+        <!-- loading complete but no data -->
+        <div *ngIf="!isLoading && offers.length <= 0" class="ion-text-center">
+          <p>No offers found! Please create one first!</p>
+          <ion-button color="primary" routerLink="/places/tabs/offers/new">Offer New Place</ion-button>
+        </div>
+        <!-- loading complete with data -->
+        <ion-list *ngIf="!isLoading && offers.length > 0">
+          <!-- to make the ion-item slideable -->
+          <ion-item-sliding *ngFor="let offer of offers" #slidingItem>
+            <!-- custom component -->
+            <app-offer-item [offer]="offer"></app-offer-item>
+            <!-- to expose option on sliding -->
+            <ion-item-options>
+              <!-- issue with routerLink - sliding doesnt get closed when we come back to this page.-->
+               <!-- <ion-item-option color="secondary" [routerLink]="['/', 'places', 'tabs', 'offers', 'edit', offer.id]"> -->
+                <ion-item-option color="secondary" (click)="onEdit(offer.id, slidingItem)">
+                 <ion-icon name="create" slot="icon-only"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+      </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

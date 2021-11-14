@@ -1,0 +1,30 @@
+ Add Permissions in AndroidManifest.xml=>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.hardware.location.gps" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+Missing elements -
+1. firebase functions backend not implemented. Place Image upload will not work.
+Basically the uploaded image should be stored into some cloud storage and its URL need to be saved into
+firebase database under the offerred_places under imageUrl, so that when places are loaded the images will be loaded from given URLs.
+
+
+Issues with Android Build - 
+With Android Studio 4.1, we need to use Gradle 6 And ionic capacitor generates below config files with gradle-7.
+This might not build on your local. So try with below changes
+	gradle-wrapper.properties
+	distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
+
+	build.gradle
+	classpath 'com.android.tools.build:gradle:4.0.1'
+

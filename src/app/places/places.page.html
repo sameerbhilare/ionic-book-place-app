@@ -1,0 +1,21 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <!-- each tab button must have unique tab name.
+    Angular will automatically insert the right page based on the button you pressed.
+    so based on the 'tab' attribute value. So the value of 'tab' attribute must match the route.
+    e.g. here since we are in places module, with tab="discover", Angular will route it to places/discover
+    -->
+    <ion-tab-button tab="discover">
+      <!-- tab label -->
+      <ion-label>Discover</ion-label>
+      <!-- tab icon -->
+      <ion-icon name="search"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="offers">
+      <ion-label>Offers</ion-label>
+      <ion-icon name="card"></ion-icon>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>
